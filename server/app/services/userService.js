@@ -10,10 +10,7 @@ class UserService {
    * @returns User
    */
   static async getUser(email) {
-    return Users.findOne({
-      where: { email },
-      attributes: ['id', 'name', 'lastname', 'email', 'createdAt', 'updatedAt'],
-    });
+    return Users.findOne({ where: { email } });
   }
 
   /**
