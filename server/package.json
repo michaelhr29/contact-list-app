@@ -5,13 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start:local": "nodemon app/app.js",
-    "lint": "eslint --ignore-path .gitignore app/"
+    "lint": "eslint --ignore-path .gitignore app/",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.36.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.0",
     "nodemon": "^2.0.21"
   },
   "dependencies": {

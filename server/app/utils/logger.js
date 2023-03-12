@@ -44,6 +44,6 @@ class Logger {
     const time = moment().format();
     this.bunyanClient.debug({ ...message, time });
   }
-}
+
 
 module.exports = new Logger();
