@@ -1,7 +1,7 @@
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 
 /**
- * Class helper to response API request
+ * Class helper to response API requests
  */
 class ResponseHelper {
   /**

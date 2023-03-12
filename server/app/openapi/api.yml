@@ -2,9 +2,20 @@ openapi: '3.0.2'
 info:
   title: API Title
   version: '1.0'
+
 tags:
   - name: auth
     description: Authorization operations
+  - name: user
+    description: User operations
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
 paths:
   /auth/login:
     post:
@@ -12,8 +23,8 @@ paths:
         - auth
       summary: Login user
       description: >-
-        Authorizes a user and returns token for accesing the API. The user must already exist in the system
-      x-eov-operation-handler: authController
+        Authorizes a user and returns token for accesing the API. The user must already exist in the system.
+      x-eov-operation-handler: userController
       operationId: loginUser
       requestBody:
         content:
@@ -59,8 +70,8 @@ paths:
         - auth
       summary: Register user
       description: >-
-        Register a new user. If the user already exists, returns an error. Else, create the user
-      x-eov-operation-handler: authController
+        Register a new user. If the user already exists, returns an error. Else, create the user.
+      x-eov-operation-handler: userController
       operationId: registerUser
       requestBody:
         content:
@@ -80,6 +91,7 @@ paths:
                 password:
                   type: string
                   format: password
+                  description: User's password
               required:
                 - email
                 - password
@@ -118,6 +130,45 @@ paths:
                     default: BAD_REQUEST
                   error:
                     type: string
+
+  /user/{id}:
+    get:
+      tags:
+        - user
+      security:
+        - bearerAuth: []
+      summary: Get user information
+      description: >-
+        Get the user information. If the user not exist, return an error. Else, return the information.
+      x-eov-operation-handler: userController
+      operationId: getUser
+      parameters:
+        - in: path
+          name: id
+          schema:
+            properties:
+              id:
+                type: integer
+          required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    default: 200
+                    description: Status' code
+                  message:
+                    type: string
+                    default: OK
+                    description: Message
+                  data:
+                    type: object
+                    description: Result data
 
 
 

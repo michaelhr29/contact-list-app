@@ -5,7 +5,7 @@ const ResponseHelper = require('../utils/responseHelper');
 const UserService = require('../services/userService');
 
 /**
- * Handlers for /auth endpoints
+ * Handlers for /auth and /user endpoints
  */
 class AuthController {
   /**
@@ -31,7 +31,7 @@ class AuthController {
   }
 
   /**
-   * Handler for /auth/login
+   * Handler for POST /auth/login
    * @param {Request} req
    * @param {Response} res
    */
@@ -44,7 +44,7 @@ class AuthController {
       return;
     }
 
-    const user = await UserService.getUser(payload.email);
+    const user = await UserService.getUserByEmail(payload.email);
     if (!user) {
       ResponseHelper.badRequest(req, res, 'The email not exists');
       return;
@@ -62,7 +62,7 @@ class AuthController {
   }
 
   /**
-   * Handler for /auth/register
+   * Handler for POST /auth/register
    * @param {Request} req
    * @param {Response} res
    */
@@ -75,7 +75,7 @@ class AuthController {
       return;
     }
 
-    const user = await UserService.getUser(payload.email);
+    const user = await UserService.getUserByEmail(payload.email);
     if (user) {
       ResponseHelper.badRequest(req, res, 'The email already exists');
       return;
@@ -87,9 +87,29 @@ class AuthController {
     const data = AuthController._buildAuthResponse(response);
     ResponseHelper.created(req, res, data);
   }
+
+  /**
+   * Handler for GET /user/{id}
+   * @param {Request} req
+   * @param {Response} res
+   * @returns User
+   */
+  static async getUser(req, res) {
+    const id = req.params.id;
+
+    const user = await UserService.getUser(id);
+    if (!user) {
+      ResponseHelper.badRequest(req, res, "User's id not exists");
+      return;
+    }
+
+    const data = AuthController._buildAuthResponse(user);
+    ResponseHelper.ok(req, res, data);
+  }
 }
 
 module.exports = {
   loginUser: AuthController.loginUser,
   registerUser: AuthController.registerUser,
+  getUser: AuthController.getUser,
 };

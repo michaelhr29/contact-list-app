@@ -3,6 +3,7 @@ require('dotenv').config();
 require('./lib/db');
 
 const Logger = require('./utils/logger');
+const authHandler = require('./middlewares/authHandler');
 const errorHandler = require('./middlewares/errorHandler');
 
 const fs = require('fs');
@@ -24,12 +25,15 @@ app.use(
   OpenApiValidator.middleware({
     apiSpec: swaggerDocument,
     operationHandlers,
+    validateSecurity: {
+      handlers: {
+        bearerAuth: authHandler,
+      },
+    },
   })
 );
 
 app.use(errorHandler);
 
 const PORT = process.env.PORT;
-app.listen(PORT, () =>
-  Logger.info({ message: `Server listening on PORT ${PORT}` })
-);
+app.listen(PORT, () => Logger.info({ message: `Server listening on PORT ${PORT}` }));

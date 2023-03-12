@@ -34,7 +34,17 @@ class Crypto {
   static async generateJWT(data) {
     const privateKey = process.env.privateKey;
     const expiresIn = process.env.expiresIn;
-    return jwt.sign({ ...data }, privateKey, { expiresIn });
+    return jwt.sign(data, privateKey, { expiresIn });
+  }
+
+  /**
+   * Verify if the token is correct
+   * @param {String} token
+   * @returns
+   */
+  static async verifyToken(token) {
+    const privateKey = process.env.privateKey;
+    return jwt.verify(token, privateKey);
   }
 }
 
