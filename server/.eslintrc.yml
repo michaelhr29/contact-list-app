@@ -1,9 +1,11 @@
+extends: airbnb-base
 env:
-  browser: true
-  commonjs: true
-  es2021: true
-extends: eslint:recommended
-overrides: []
-parserOptions:
-  ecmaVersion: latest
-rules: {}
+    node: true
+rules:
+  import/no-dynamic-require: 0
+  no-underscore-dangle : 0
+  no-useless-escape: 0
+  prefer-destructuring: 0
+  max-len:
+    - error
+    - code : 200

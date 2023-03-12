@@ -1,6 +1,7 @@
-/* eslint-disable no-undef */
 const app = require('express')();
 require('dotenv').config();
+
+const Logger = require('./utils/logger');
 
 const fs = require('fs');
 const YAML = require('js-yaml');
@@ -19,4 +20,6 @@ app.use(
 );
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(PORT));
+app.listen(PORT, () =>
+  Logger.info({ message: `Server listening on PORT ${PORT}` })
+);
