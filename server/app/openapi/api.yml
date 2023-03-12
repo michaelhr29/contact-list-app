@@ -44,7 +44,7 @@ paths:
                     description: Status' code
                   message:
                     type: string
-                    default: CREATED
+                    default: OK
                     description: Message
                   count:
                     type: integer
@@ -52,6 +52,72 @@ paths:
                   data:
                     type: object
                     description: Result data
+
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register user
+      description: >-
+        Register a new user. If the user already exists, returns an error. Else, create the user
+      x-eov-operation-handler: authController
+      operationId: registerUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: User's name
+                lastname:
+                  type: string
+                  description: User's lastname
+                email:
+                  type: string
+                  description: User's email
+                password:
+                  type: string
+                  format: password
+              required:
+                - email
+                - password
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    default: 201
+                    description: Status' code
+                  message:
+                    type: string
+                    default: CREATED
+                    description: Message
+                  data:
+                    type: object
+                    description: Result data
+        400:
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    default: 400
+                    description: Status' code
+                  message:
+                    type: string
+                    default: BAD_REQUEST
+                  error:
+                    type: string
 
 
 
