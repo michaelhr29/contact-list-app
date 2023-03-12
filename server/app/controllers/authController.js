@@ -1,6 +1,8 @@
 const Isemail = require('isemail');
-const ResponseHelper = require('../utils/responseHelper');
+
 const Crypto = require('../utils/crypto');
+const ResponseHelper = require('../utils/responseHelper');
+const UserService = require('../services/userService');
 
 /**
  * Handlers for /auth endpoints
@@ -35,8 +37,16 @@ class AuthController {
       return;
     }
 
+    const user = await UserService.getUser(payload.email);
+    if (user) {
+      ResponseHelper.badRequest(req, res, 'The email already exists');
+      return;
+    }
+
     payload.password = await Crypto.hashPassword(payload.password);
-    console.log('payload', payload);
+    const response = await UserService.registerUser(payload);
+    response.password = undefined;
+    ResponseHelper.created(req, res, response);
   }
 }
 
