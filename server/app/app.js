@@ -1,6 +1,5 @@
 const app = require('express')();
 require('dotenv').config();
-require('./lib/db');
 
 const Logger = require('./utils/logger');
 const authHandler = require('./middlewares/authHandler');

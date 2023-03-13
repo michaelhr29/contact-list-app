@@ -15,6 +15,7 @@ class AuthController {
    * @returns Object response
    */
   static _buildAuthResponse(data, token = null) {
+    console.log('respnse', data);
     const response = {
       id: data.id,
       name: data.name,
@@ -68,6 +69,7 @@ class AuthController {
    */
   static async registerUser(req, res) {
     const payload = req.body;
+    console.log('payload', payload);
 
     const isValidEmail = Isemail.validate(payload.email);
     if (!isValidEmail) {
@@ -95,7 +97,7 @@ class AuthController {
    * @returns User
    */
   static async getUser(req, res) {
-    const id = req.params.id;
+    const { id } = req.params;
 
     const user = await UserService.getUser(id);
     if (!user) {
